@@ -48,3 +48,15 @@ jobs:
         run: npm clean-install --prefix src
       - name: Run integration tests
         run: npm run test-integration --prefix src
+  end-to-end-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install dependencies
+        run: npm clean-install --prefix src
+      - name: Run end-to-end tests
+        run: npm run test-e2e --prefix src
