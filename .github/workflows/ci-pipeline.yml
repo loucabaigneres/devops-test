@@ -68,4 +68,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: e2e-report
-          path: playwright-report/
+          path: src/playwright-report/
