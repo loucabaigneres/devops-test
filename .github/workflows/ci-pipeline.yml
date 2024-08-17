@@ -11,6 +11,10 @@ on:
     branches:
       - main
 
+defaults:
+  run:
+    working-directory: src
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -21,9 +25,9 @@ jobs:
         with:
           node-version: "18"
       - name: Install dependencies
-        run: npm clean-install --prefix src
+        run: npm clean-install
       - name: Run linter
-        run: npm run test-lint --prefix src
+        run: npm run test-lint
   unit-test:
     runs-on: ubuntu-latest
     steps:
@@ -33,9 +37,9 @@ jobs:
         with:
           node-version: "18"
       - name: Install dependencies
-        run: npm clean-install --prefix src
+        run: npm clean-install
       - name: Run unit tests
-        run: npm run test-unit --prefix src
+        run: npm run test-unit
   integration-test:
     runs-on: ubuntu-latest
     steps:
@@ -45,9 +49,9 @@ jobs:
         with:
           node-version: "18"
       - name: Install dependencies
-        run: npm clean-install --prefix src
+        run: npm clean-install
       - name: Run integration tests
-        run: npm run test-integration --prefix src
+        run: npm run test-integration
   end-to-end-test:
     runs-on: ubuntu-latest
     steps:
@@ -57,9 +61,9 @@ jobs:
         with:
           node-version: "18"
       - name: Install dependencies
-        run: npm clean-install --prefix src
+        run: npm clean-install
       - name: Run end-to-end tests
-        run: npm run test-e2e --prefix src
+        run: npm run test-e2e
   artifact:
     runs-on: ubuntu-latest
     steps:
@@ -69,7 +73,7 @@ jobs:
         with:
           node-version: "18"
       - name: Install dependencies
-        run: npm clean-install --prefix src
+        run: npm clean-install
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
