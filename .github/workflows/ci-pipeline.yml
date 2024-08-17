@@ -64,18 +64,8 @@ jobs:
         run: npm clean-install
       - name: Run end-to-end tests
         run: npm run test-e2e
-  artifact:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js 18.x
-        uses: actions/setup-node@v3
-        with:
-          node-version: "18"
-      - name: Install dependencies
-        run: npm clean-install
-      - name: Upload artifacts
+      - if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: notes-app
-          path: src
+          name: e2e-report
+          path: playwright-report/
