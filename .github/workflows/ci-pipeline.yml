@@ -94,7 +94,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    # needs: [lint, unit-test, integration-test, end-to-end-test]
+    needs: [lint, unit-test, integration-test, end-to-end-test]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 18.x
@@ -103,10 +103,8 @@ jobs:
           node-version: "18"
       - name: Install dependencies
         run: npm ci --production
-      - name: Build artifact
-        run: npm run build
-      - name: Archive artifact
-        uses: actions/upload-artifact@v2
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: my-app
+          name: note-app
           path: src
