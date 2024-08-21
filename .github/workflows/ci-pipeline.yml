@@ -75,6 +75,8 @@ jobs:
           node-version: "18"
       - name: Install dependencies
         run: npm clean-install
+      - name: Install Playwright Dependencies
+        run: npx playwright install-deps
       - name: Install Playwright Browsers
         run: npx playwright install
       - name: Run server
