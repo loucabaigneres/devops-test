@@ -27,6 +27,7 @@ jobs:
         run: npm clean-install
       - name: Run linter
         run: npm run test-lint
+
   unit-test:
     runs-on: ubuntu-latest
     steps:
@@ -41,6 +42,11 @@ jobs:
         run: npm run test-unit
   integration-test:
     runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 18.x
@@ -50,9 +56,17 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Run integration tests
+        env:
+          SERVER: mongodb://localhost:27017
         run: npm run test-integration
+
   end-to-end-test:
     runs-on: ubuntu-latest
+    services:
+      mongodb:
+        image: mongo
+        ports:
+          - 27017:27017
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js 18.x
@@ -61,11 +75,42 @@ jobs:
           node-version: "18"
       - name: Install dependencies
         run: npm clean-install
+      - name: Install Playwright Browsers
+        run: npx playwright install
+      - name: Run server
+        run: npm run start &
       - name: Run end-to-end tests
+        env:
+          SERVER: mongodb://localhost:27017
         run: npm run test-e2e
-      - name: Upload e2e report
-        if: always() && github.ref == 'refs/heads/main'
+      - name: Upload Playwright report
         uses: actions/upload-artifact@v3
+        if: always()
         with:
-          name: e2e-report
+          name: playwright-report
           path: src/playwright-report/
+
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Use Node.js 18.x
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "18"
+    # needs: [lint, unit-test, integration-test, end-to-end-test]
+    # steps:
+    #   - uses: actions/checkout@v3
+    #   - name: Use Node.js 18.x
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: "18"
+    #   - name: Install dependencies
+    #   run: npm clean-install
+    #   - name: Build artifact
+    #   run: npm run build
+    #   - name: Archive artifact
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: my-app
+    #     path: path/to/artifact
