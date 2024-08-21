@@ -76,7 +76,7 @@ jobs:
       - name: Install dependencies
         run: npm clean-install
       - name: Install Playwright Dependencies
-        run: npx playwright install-deps
+        run: npx playwright install-deps webkit
       - name: Install Playwright Browsers
         run: npx playwright install
       - name: Run server
