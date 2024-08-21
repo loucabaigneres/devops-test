@@ -106,5 +106,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: note-app
+          name: note-app-${{ github.sha }}
           path: src
