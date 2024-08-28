@@ -41,7 +41,7 @@ jobs:
       - name: Run unit tests
         run: npm run test-unit
       - name: Upload artifact report
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-${{ github.sha }}
@@ -67,7 +67,7 @@ jobs:
           SERVER: mongodb://localhost:27017
         run: npm run test-integration
       - name: Upload artifact report
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v3
         with:
           name: unit-test-${{ github.sha }}
@@ -100,7 +100,7 @@ jobs:
         run: npm run test-e2e
       - name: Upload Playwright report
         uses: actions/upload-artifact@v3
-        if: failure()
+        if: always()
         with:
           name: playwright-report
           path: src/playwright-report/
