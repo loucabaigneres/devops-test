@@ -70,7 +70,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          name: unit-test-${{ github.sha }}
+          name: integration-test-${{ github.sha }}
           path: src/coverage
 
   end-to-end-test:
@@ -102,7 +102,7 @@ jobs:
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-${{ github.sha }}
           path: src/playwright-report/
 
   deploy:
